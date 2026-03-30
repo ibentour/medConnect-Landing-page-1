@@ -1,14 +1,13 @@
 import { useState } from "react";
 import {
   Mail,
-  Github,
-  Linkedin,
   MapPin,
   Terminal,
   Calendar,
   ChevronRight,
   ExternalLink,
 } from "lucide-react";
+import { FiGithub, FiLinkedin } from "react-icons/fi";
 
 export default function AIPortfolio() {
   type Lang = "en" | "fr";
@@ -359,7 +358,7 @@ export default function AIPortfolio() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-colors"
               >
-                <Github className="w-4 h-4" />
+                <FiGithub className="w-4 h-4" />
                 <span className="text-sm">{t[language].github}</span>
               </a>
               <a
@@ -368,7 +367,7 @@ export default function AIPortfolio() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 border-2 border-black hover:bg-black hover:text-white transition-colors"
               >
-                <Linkedin className="w-4 h-4" />
+                <FiLinkedin className="w-4 h-4" />
                 <span className="text-sm">{t[language].linkedin}</span>
               </a>
             </div>
@@ -662,7 +661,7 @@ export default function AIPortfolio() {
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform"
               >
-                <Github className="w-5 h-5" />
+                <FiGithub className="w-5 h-5" />
               </a>
               <a
                 href="https://linkedin.com/in/zaineb-rahmani-07117315b"
@@ -670,7 +669,7 @@ export default function AIPortfolio() {
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform"
               >
-                <Linkedin className="w-5 h-5" />
+                <FiLinkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
