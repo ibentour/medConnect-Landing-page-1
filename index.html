@@ -9,28 +9,246 @@
     <!-- Icônes Lucide pour l'aspect visuel -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-      /* Légère animation pour le hero */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      /* ── Scroll reveal ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s cubic-bezier(.22,1,.36,1),
+                    transform 0.7s cubic-bezier(.22,1,.36,1);
       }
-      .animate-fade-in {
-        animation: fadeIn 0.8s ease-out forwards;
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: opacity 0.7s cubic-bezier(.22,1,.36,1),
+                    transform 0.7s cubic-bezier(.22,1,.36,1);
+      }
+      .reveal-left.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: opacity 0.7s cubic-bezier(.22,1,.36,1),
+                    transform 0.7s cubic-bezier(.22,1,.36,1);
+      }
+      .reveal-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-scale {
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.6s cubic-bezier(.22,1,.36,1),
+                    transform 0.6s cubic-bezier(.22,1,.36,1);
+      }
+      .reveal-scale.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Stagger children */
+      .stagger-children > * {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.5s cubic-bezier(.22,1,.36,1),
+                    transform 0.5s cubic-bezier(.22,1,.36,1);
+      }
+      .stagger-children.visible > *:nth-child(1) { transition-delay: 0.05s; }
+      .stagger-children.visible > *:nth-child(2) { transition-delay: 0.12s; }
+      .stagger-children.visible > *:nth-child(3) { transition-delay: 0.19s; }
+      .stagger-children.visible > *:nth-child(4) { transition-delay: 0.26s; }
+      .stagger-children.visible > *:nth-child(5) { transition-delay: 0.33s; }
+      .stagger-children.visible > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── Hero blob float ── */
+      @keyframes floatBlob1 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(30px, -20px) scale(1.05); }
+        66% { transform: translate(-15px, 15px) scale(0.97); }
+      }
+      @keyframes floatBlob2 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(-25px, 15px) scale(1.04); }
+        66% { transform: translate(20px, -10px) scale(0.96); }
+      }
+      .blob-1 { animation: floatBlob1 8s ease-in-out infinite; }
+      .blob-2 { animation: floatBlob2 10s ease-in-out infinite; }
+
+      /* ── Gradient shimmer on hero text ── */
+      @keyframes shimmer {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .gradient-shimmer {
+        background: linear-gradient(90deg, #10b981, #2dd4bf, #14b8a6, #06b6d4, #10b981);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer 4s ease-in-out infinite;
+      }
+
+      /* ── Pulse ring on WhatsApp button ── */
+      @keyframes pulseRing {
+        0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+        70% { box-shadow: 0 0 0 14px rgba(16,185,129,0); }
+        100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+      }
+      .pulse-ring { animation: pulseRing 2s ease-out infinite; }
+
+      /* ── Navbar shrink on scroll ── */
+      header { transition: padding 0.3s, box-shadow 0.3s; }
+      header.scrolled {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      }
+
+      /* ── Button magnetic hover ── */
+      .btn-magnetic {
+        transition: transform 0.25s cubic-bezier(.22,1,.36,1),
+                    box-shadow 0.25s ease;
+      }
+      .btn-magnetic:hover {
+        transform: translateY(-2px);
+      }
+
+      /* ── Card tilt on hover ── */
+      .tilt-card {
+        transition: transform 0.4s cubic-bezier(.22,1,.36,1),
+                    box-shadow 0.4s ease,
+                    border-color 0.3s ease;
+        transform-style: preserve-3d;
+        perspective: 800px;
+      }
+
+      /* ── Stat counter ── */
+      .stat-value {
+        display: inline-block;
+      }
+
+      /* ── Underline grow on nav links ── */
+      .nav-link {
+        position: relative;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: #10b981;
+        border-radius: 2px;
+        transition: width 0.3s ease, left 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+        left: 0;
+      }
+
+      /* ── Rotating decorative icon ── */
+      @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      .spin-slow { animation: spin-slow 20s linear infinite; }
+
+      /* ── Footer logo fade pulse ── */
+      @keyframes fadePulse {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.7; }
+      }
+      .fade-pulse { animation: fadePulse 3s ease-in-out infinite; }
+
+      /* ── Form input glow ── */
+      .input-glow:focus {
+        box-shadow: 0 0 0 4px rgba(16,185,129,0.12);
+      }
+
+      /* ── Success checkmark ── */
+      @keyframes popIn {
+        0% { transform: scale(0); opacity: 0; }
+        70% { transform: scale(1.15); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      .pop-in { animation: popIn 0.4s cubic-bezier(.22,1,.36,1) forwards; }
+
+      /* ── Scroll progress bar ── */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #10b981, #2dd4bf);
+        z-index: 200;
+        transition: width 0.1s linear;
+      }
+
+      /* ── Hero entrance stagger ── */
+      @keyframes heroFadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .hero-1 { animation: heroFadeUp 0.7s 0.1s cubic-bezier(.22,1,.36,1) both; }
+      .hero-2 { animation: heroFadeUp 0.7s 0.25s cubic-bezier(.22,1,.36,1) both; }
+      .hero-3 { animation: heroFadeUp 0.7s 0.4s cubic-bezier(.22,1,.36,1) both; }
+      .hero-4 { animation: heroFadeUp 0.7s 0.55s cubic-bezier(.22,1,.36,1) both; }
+
+      /* ── Floating particles ── */
+      @keyframes particleFloat {
+        0%, 100% { transform: translateY(0) translateX(0); opacity: 0.4; }
+        25% { transform: translateY(-20px) translateX(10px); opacity: 0.7; }
+        50% { transform: translateY(-8px) translateX(-8px); opacity: 0.5; }
+        75% { transform: translateY(-25px) translateX(5px); opacity: 0.6; }
+      }
+      .particle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(16,185,129,0.3);
+        pointer-events: none;
+      }
+      .particle:nth-child(1) { top: 20%; left: 10%; animation: particleFloat 6s 0s ease-in-out infinite; }
+      .particle:nth-child(2) { top: 60%; left: 85%; animation: particleFloat 7s 1s ease-in-out infinite; width: 8px; height: 8px; background: rgba(59,130,246,0.25); }
+      .particle:nth-child(3) { top: 40%; left: 50%; animation: particleFloat 5s 0.5s ease-in-out infinite; width: 4px; height: 4px; }
+      .particle:nth-child(4) { top: 75%; left: 25%; animation: particleFloat 8s 2s ease-in-out infinite; width: 10px; height: 10px; background: rgba(20,184,166,0.2); }
+      .particle:nth-child(5) { top: 15%; left: 70%; animation: particleFloat 6.5s 1.5s ease-in-out infinite; width: 5px; height: 5px; background: rgba(99,102,241,0.25); }
     </style>
   </head>
   <body
     class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-emerald-200 selection:text-emerald-900"
   >
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Award Announcement Banner -->
+    <a
+      href="prix.html"
+      class="block bg-gradient-to-r from-amber-500 via-amber-400 to-emerald-500 text-white text-center py-2.5 px-4 text-sm font-semibold tracking-wide hover:from-amber-600 hover:via-amber-500 hover:to-emerald-600 transition-all duration-300 relative overflow-hidden group"
+    >
+      <span class="relative z-10 flex items-center justify-center gap-2">
+        <i data-lucide="award" class="w-4 h-4"></i>
+        Lauréats du Prix d'Excellence — Grande Prix régional de l'Oriental
+        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+      </span>
+      <span class="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></span>
+    </a>
+
     <!-- Header / Logo -->
     <header
       class="py-6 bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40"
+      id="mainHeader"
     >
       <div class="container mx-auto px-6 flex justify-between items-center">
         <div class="flex items-center space-x-2">
@@ -41,12 +259,21 @@
             >MedConnect</span
           >
         </div>
-        <a
-          href="#contact"
-          class="hidden sm:block bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2.5 rounded-full font-medium transition duration-200 shadow-sm hover:shadow-md"
-        >
-          Nous contacter
-        </a>
+        <div class="hidden sm:flex items-center gap-3">
+          <a
+            href="privacy.html"
+            class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2.5 rounded-full font-medium transition duration-200 shadow-sm hover:shadow-md flex items-center gap-2 btn-magnetic"
+          >
+            <i data-lucide="log-in" class="w-4 h-4"></i>
+            Lancer l'app
+          </a>
+          <a
+            href="#contact"
+            class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-full font-medium transition duration-200 shadow-sm hover:shadow-md btn-magnetic"
+          >
+            Nous contacter
+          </a>
+        </div>
       </div>
     </header>
 
@@ -54,47 +281,61 @@
     <section
       class="py-20 md:py-32 bg-gradient-to-br from-white via-emerald-50/50 to-emerald-100/30 overflow-hidden relative"
     >
+      <!-- Floating particles -->
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+
       <div
-        class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-emerald-200 rounded-full blur-3xl opacity-30"
+        class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-emerald-200 rounded-full blur-3xl opacity-30 blob-1"
       ></div>
       <div
-        class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-blue-200 rounded-full blur-3xl opacity-30"
+        class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-blue-200 rounded-full blur-3xl opacity-30 blob-2"
       ></div>
 
       <div
-        class="container mx-auto px-6 text-center max-w-4xl relative z-10 animate-fade-in"
+        class="container mx-auto px-6 text-center max-w-4xl relative z-10"
       >
         <span
-          class="inline-block py-1 px-3 rounded-full bg-emerald-100 text-emerald-700 font-semibold tracking-wide uppercase text-xs mb-6 border border-emerald-200"
+          class="hero-1 inline-block py-1 px-3 rounded-full bg-emerald-100 text-emerald-700 font-semibold tracking-wide uppercase text-xs mb-6 border border-emerald-200"
         >
           HealthTech Startup - Hackathon Ramadan IA 2026
         </span>
         <h1
-          class="text-5xl md:text-6xl font-extrabold text-slate-900 mt-3 mb-6 leading-tight tracking-tight"
+          class="hero-2 text-5xl md:text-6xl font-extrabold text-slate-900 mt-3 mb-6 leading-tight tracking-tight"
         >
           L'ingénierie tech au service de
           <span
-            class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400"
+            class="gradient-shimmer"
             >la santé de demain</span
           >
         </h1>
         <p
-          class="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed"
+          class="hero-3 text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed"
         >
           Une équipe spécialisée dans la création de solutions IT sur mesure
           pour le secteur médical au Maroc.
         </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <div class="hero-4 flex flex-col sm:flex-row justify-center gap-4">
           <a
             href="#contact"
-            class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-medium text-lg transition duration-200 shadow-xl shadow-slate-900/20 flex items-center justify-center"
+            class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-medium text-lg transition duration-200 shadow-xl shadow-slate-900/20 flex items-center justify-center btn-magnetic"
           >
             Discutons de votre projet
             <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
           </a>
           <a
+            href="privacy.html"
+            class="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition duration-200 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 btn-magnetic"
+          >
+            <i data-lucide="log-in" class="w-5 h-5"></i>
+            Lancer l'app
+          </a>
+          <a
             href="#expertises"
-            class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-xl font-medium text-lg transition duration-200 flex items-center justify-center"
+            class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-xl font-medium text-lg transition duration-200 flex items-center justify-center btn-magnetic"
           >
             Découvrir nos solutions
           </a>
@@ -105,7 +346,7 @@
     <!-- Section Nos Expertises -->
     <section id="expertises" class="py-20 bg-white">
       <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
+        <div class="text-center mb-16 reveal">
           <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
             Notre ADN Technologique
           </h2>
@@ -115,10 +356,10 @@
           </p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto stagger-children">
           <!-- Carte 1 -->
           <div
-            class="p-8 bg-white rounded-3xl border border-slate-100 hover:border-emerald-100 hover:shadow-2xl hover:shadow-emerald-500/5 transition duration-300 group"
+            class="p-8 bg-white rounded-3xl border border-slate-100 hover:border-emerald-100 hover:shadow-2xl hover:shadow-emerald-500/5 transition duration-300 group tilt-card"
           >
             <div
               class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
@@ -137,7 +378,7 @@
 
           <!-- Carte 2 -->
           <div
-            class="p-8 bg-white rounded-3xl border border-slate-100 hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-500/5 transition duration-300 group relative overflow-hidden"
+            class="p-8 bg-white rounded-3xl border border-slate-100 hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-500/5 transition duration-300 group relative overflow-hidden tilt-card"
           >
             <div
               class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl rounded-tr-3xl uppercase tracking-wider"
@@ -160,7 +401,7 @@
 
           <!-- Carte 3 -->
           <div
-            class="p-8 bg-white rounded-3xl border border-slate-100 hover:border-amber-100 hover:shadow-2xl hover:shadow-amber-500/5 transition duration-300 group"
+            class="p-8 bg-white rounded-3xl border border-slate-100 hover:border-amber-100 hover:shadow-2xl hover:shadow-amber-500/5 transition duration-300 group tilt-card"
           >
             <div
               class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
@@ -183,13 +424,13 @@
     <section class="py-20 bg-slate-900 text-white">
       <div class="container mx-auto px-6">
         <div
-          class="max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row bg-slate-800 border border-slate-700"
+          class="max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row bg-slate-800 border border-slate-700 reveal-scale"
         >
           <div
             class="md:w-1/2 p-10 md:p-14 flex flex-col justify-center relative overflow-hidden"
           >
             <!-- Décoration fond -->
-            <div class="absolute -right-20 -bottom-20 opacity-10">
+            <div class="absolute -right-20 -bottom-20 opacity-10 spin-slow">
               <i data-lucide="stethoscope" class="w-64 h-64"></i>
             </div>
 
@@ -272,7 +513,7 @@
     <!-- Section Équipe (Solo Squad) -->
     <section class="py-20 bg-slate-50">
       <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
+        <div class="text-center mb-16 reveal">
           <span
             class="text-emerald-600 font-semibold tracking-wide uppercase text-sm"
             >L'équipe</span
@@ -286,7 +527,7 @@
           </p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-6xl mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-6xl mx-auto stagger-children">
           <!-- Membre 1 -->
           <div
             class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center hover:-translate-y-2 transition duration-300"
@@ -372,10 +613,11 @@
       ></div>
       <div class="container mx-auto px-6 max-w-3xl">
         <div
-          class="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-slate-200/50 border border-slate-100 relative"
+          class="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-slate-200/50 border border-slate-100 relative reveal"
         >
           <div
-            class="absolute -top-6 right-10 w-12 h-12 bg-emerald-500 rounded-2xl rotate-12 flex items-center justify-center text-white shadow-lg"
+            class="absolute -top-6 right-10 w-12 h-12 bg-emerald-500 rounded-2xl rotate-12 flex items-center justify-center text-white shadow-lg hover:rotate-0 transition-transform duration-500"
+            style="animation: floatBlob1 4s ease-in-out infinite;"
           >
             <i data-lucide="mail"></i>
           </div>
@@ -398,7 +640,7 @@
               <input
                 type="text"
                 required
-                class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition"
+                class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition input-glow"
                 placeholder="Ex: Dr. Ahmed Alaoui"
               />
             </div>
@@ -409,7 +651,7 @@
               >
               <input
                 type="text"
-                class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition"
+                class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition input-glow"
                 placeholder="Ex: CHU Oujda, Ministère de la Santé..."
               />
             </div>
@@ -423,7 +665,7 @@
                 <input
                   type="tel"
                   required
-                  class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition"
+                  class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition input-glow"
                   placeholder="Ex: 06 00 00 00 00"
                 />
               </div>
@@ -434,7 +676,7 @@
                 <input
                   type="email"
                   required
-                  class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition"
+                  class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition input-glow"
                   placeholder="Ex: contact@chu.ma"
                 />
               </div>
@@ -448,7 +690,7 @@
               <textarea
                 required
                 rows="4"
-                class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition resize-none"
+                class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition resize-none input-glow"
                 placeholder="Comment pouvons-nous vous aider ?"
               ></textarea>
             </div>
@@ -464,7 +706,7 @@
 
             <button
               type="submit"
-              class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition duration-200 shadow-lg shadow-slate-900/20 flex items-center justify-center space-x-2"
+              class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition duration-200 shadow-lg shadow-slate-900/20 flex items-center justify-center space-x-2 btn-magnetic"
             >
               <span>Envoyer ma demande</span>
               <i data-lucide="send" class="w-5 h-5"></i>
@@ -481,8 +723,8 @@
     <footer
       class="py-10 bg-slate-900 text-slate-400 text-center border-t border-slate-800"
     >
-      <div class="container mx-auto px-6">
-        <div class="flex items-center justify-center space-x-2 mb-4 opacity-50">
+      <div class="container mx-auto px-6 reveal">
+        <div class="flex items-center justify-center space-x-2 mb-4 fade-pulse">
           <i data-lucide="activity" class="text-emerald-500 w-6 h-6"></i>
           <span class="text-xl font-bold text-white tracking-tight"
             >MedConnect</span
@@ -494,6 +736,12 @@
         <p class="text-xs mt-2 text-slate-600">
           Fait avec passion au Hackathon Ramadan IA 2026 - Maroc
         </p>
+        <p class="text-xs mt-3">
+          <a href="privacy.html" class="text-slate-500 hover:text-emerald-400 transition flex items-center justify-center gap-1">
+            <i data-lucide="shield-check" class="w-3 h-3"></i>
+            Politique de confidentialité
+          </a>
+        </p>
       </div>
     </footer>
 
@@ -502,7 +750,7 @@
       href="https://wa.me/212600000000"
       target="_blank"
       rel="noopener noreferrer"
-      class="fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:bg-emerald-600 hover:scale-110 transition duration-300 z-50 group"
+      class="fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:bg-emerald-600 hover:scale-110 transition duration-300 z-50 group pulse-ring"
     >
       <i data-lucide="message-circle" class="w-7 h-7"></i>
       <!-- Tooltip -->
@@ -516,7 +764,64 @@
     <!-- Initialisation des icônes Lucide -->
     <script>
       lucide.createIcons();
-      // Gestion de l'envoi du formulaire
+
+      // ── Scroll Progress Bar ──
+      const scrollProgress = document.getElementById('scrollProgress');
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        scrollProgress.style.width = progress + '%';
+      });
+
+      // ── Header shrink on scroll ──
+      const header = document.getElementById('mainHeader');
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+      });
+
+      // ── Scroll Reveal (Intersection Observer) ──
+      const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // ── Card Tilt Effect ──
+      document.querySelectorAll('.tilt-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -5;
+          const rotateY = ((x - centerX) / centerX) * 5;
+          card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+      });
+
+      // ── Button Magnetic Effect ──
+      document.querySelectorAll('.btn-magnetic').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate(0, 0)';
+        });
+      });
+
+      // ── Form Success Animation ──
       document
         .getElementById("contactForm")
         .addEventListener("submit", async function (e) {
@@ -536,13 +841,26 @@
               body: JSON.stringify(data),
             });
             if (res.ok) {
-              document.getElementById("formSuccess").classList.remove("hidden");
+              const success = document.getElementById("formSuccess");
+              success.classList.remove("hidden");
+              success.classList.add("pop-in");
               form.reset();
             }
           } catch (err) {
             alert("Erreur lors de l'envoi. Merci de réessayer plus tard.");
           }
         });
+
+      // ── Smooth scroll for anchor links ──
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
     </script>
   </body>
 </html>

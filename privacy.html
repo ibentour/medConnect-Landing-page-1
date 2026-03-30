@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accès restreint — MedConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-bounce-slow { animation: bounce 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex items-center justify-center min-h-screen p-6 selection:bg-emerald-200 selection:text-emerald-900">
+  <div class="max-w-lg w-full text-center bg-white border border-slate-200 rounded-2xl p-10 md:p-12 shadow-xl shadow-slate-200/50">
+    <div class="text-5xl mb-5 animate-bounce-slow">🔒</div>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4 leading-tight">
+      Accès <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">restreint</span>
+    </h1>
+    <p class="text-slate-500 text-base leading-relaxed mb-3">
+      Vous avez trouvé l'entrée de la plateforme interne MedConnect — l'endroit où
+      la magie opérationnelle des référencements hospitaliers se produit.
+    </p>
+
+    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-dashed border-emerald-300 rounded-xl p-5 my-6 text-sm text-slate-700 leading-relaxed text-left">
+      <strong class="text-emerald-700">Confidentialité des données.</strong><br/>
+      Nous prenons très au sérieux la confidentialité des données de nos clients.
+      Notre plateforme est construite en pleine conformité avec la
+      <strong>loi 09-08</strong> relative à la protection des données personnelles au Maroc.
+      <br/><br/>
+      Nous ne pouvons pas laisser n'importe qui accéder aux dossiers patients —
+      <em>vous comprenez, n'est-ce pas ?</em>
+    </div>
+
+    <p class="text-slate-500 text-base leading-relaxed mb-2">
+      Si vous êtes un professionnel de santé disposant d'identifiants valides,
+      votre administrateur système vous fournira l'accès. Si vous êtes simplement
+      curieux de ce que nous construisons — promis, ça vaut le coup d'attendre !
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+      <a
+        href="index.html"
+        class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold text-base transition duration-200 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+      >
+        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        Retour à l'accueil
+      </a>
+      <a
+        href="index.html#contact"
+        class="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-6 py-3 rounded-xl font-semibold text-base transition duration-200 flex items-center justify-center"
+      >
+        Nous contacter
+      </a>
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
